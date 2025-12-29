@@ -35,7 +35,7 @@
 
     .mutlu-yillar {
       position: absolute;
-      top: 40%; /* 2026’nın biraz üstünde */
+      top: 40%;
       left: 50%;
       transform: translateX(-50%);
       font-size: 3rem;
@@ -88,6 +88,17 @@
       z-index: 3;
     }
 
+    .gift-text {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 85%; /* kutunun hemen altında */
+      transform: translateX(-50%);
+      font-size: 1.5rem;
+      color: white;
+      z-index: 3;
+    }
+
     .photo {
       display: none;
       max-width: 80%;
@@ -110,7 +121,9 @@
     <div class="mutlu-yillar" id="mutluYillar">Mutlu Yıllar</div>
     <div id="y2026" class="year">2026</div>
 
+    <!-- Hediye kutusu ve altındaki yazı -->
     <img src="hediye.jpg" class="gift" id="gift" alt="Gift Box">
+    <div id="giftText" class="gift-text">Hediyeni Aç</div>
 
     <!-- Fotoğraflar -->
     <img src="foto1.jpg" class="photo">
@@ -136,7 +149,7 @@
         document.getElementById("mutluYillar").style.opacity = "1";
       }, 1000);
 
-      // Üstten süzülen konfeti (çok artırıldı)
+      // Üstten süzülen konfeti
       setTimeout(() => {
         for (let i = 0; i < 1000; i++) {
           const confetti = document.createElement("div");
@@ -155,9 +168,10 @@
         }
       }, 1000);
 
-      // 7 saniye sonra hediye kutusu çıkıyor
+      // 7 saniye sonra hediye kutusu ve yazısı çıkıyor
       setTimeout(() => {
         document.getElementById("gift").style.display = "block";
+        document.getElementById("giftText").style.display = "block";
       }, 7000);
     }
 
@@ -166,6 +180,7 @@
     // Kutunun tıklanması
     document.getElementById("gift").addEventListener("click", () => {
       document.getElementById("gift").style.display = "none";
+      document.getElementById("giftText").style.display = "none";
       const photos = document.querySelectorAll(".photo");
       const randomIndex = Math.floor(Math.random() * photos.length);
       photos[randomIndex].style.display = "block";
