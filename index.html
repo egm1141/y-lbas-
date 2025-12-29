@@ -76,7 +76,8 @@
 <body>
   <div id="y2025" class="year">2025</div>
   <div id="y2026" class="year">2026</div>
-  <img src="hediye.png" class="gift" id="gift" alt="Gift Box">
+  <!-- Senin kutu görselin artık JPG -->
+  <img src="hediye.jpg" class="gift" id="gift" alt="Gift Box">
 
   <!-- Fotoğraflar -->
   <img src="foto1.jpg" class="photo">
@@ -112,7 +113,7 @@
         confetti.style.top = "-10px";
         confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
 
-        // Farklı süre, gecikme ve X salınımı
+        // Farklı süre, gecikme ve sağa–sola kayma
         const duration = 2 + Math.random() * 3; // 2–5 saniye
         const delay = Math.random() * 2;        // 0–2 saniye
         const drift = (Math.random() - 0.5) * 200; // sağa–sola kayma
