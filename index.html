@@ -60,13 +60,21 @@
       height: 10px;
       background: red;
       opacity: 1;
-      animation: fall linear forwards;
+      animation: driftFall linear forwards;
       pointer-events: none;
     }
 
-    @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(720deg);
+    @keyframes driftFall {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(50vh) translateX(40px) rotate(180deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(100vh) translateX(-40px) rotate(360deg);
         opacity: 0;
       }
     }
@@ -139,16 +147,11 @@
           confetti.style.top = "-10px";
           confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
 
-          const duration = 2 + Math.random() * 3;
-          const delay = Math.random() * 2;
-          const drift = (Math.random() - 0.5) * 200;
-
+          const duration = 3 + Math.random() * 3;
           confetti.style.animationDuration = duration + "s";
-          confetti.style.animationDelay = delay + "s";
-          confetti.style.transform = `translateX(${drift}px)`;
 
           document.body.appendChild(confetti);
-          setTimeout(() => confetti.remove(), (duration + delay) * 1000);
+          setTimeout(() => confetti.remove(), duration * 1000);
         }
       }, 1000);
 
@@ -178,9 +181,9 @@
       confetti.style.top = e.pageY + "px";
       confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
 
-      confetti.style.animationDuration = "1s";
+      confetti.style.animationDuration = "2s";
       document.body.appendChild(confetti);
-      setTimeout(() => confetti.remove(), 1000);
+      setTimeout(() => confetti.remove(), 2000);
     });
 
     // Ekrana tıklanınca konfeti patlasın
@@ -192,12 +195,8 @@
         confetti.style.top = e.pageY + "px";
         confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
 
-        const duration = 1 + Math.random() * 2;
-        const driftX = (Math.random() - 0.5) * 200;
-        const driftY = (Math.random() - 0.5) * 200;
-
+        const duration = 2 + Math.random() * 2;
         confetti.style.animationDuration = duration + "s";
-        confetti.style.transform = `translate(${driftX}px, ${driftY}px)`;
 
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), duration * 1000);
