@@ -60,7 +60,7 @@
       height: 10px;
       background: red;
       opacity: 1;
-      animation: driftFall linear forwards;
+      animation: driftFall ease-in-out forwards;
       pointer-events: none;
     }
 
@@ -186,7 +186,7 @@
       setTimeout(() => confetti.remove(), 2000);
     });
 
-    // Ekrana tıklanınca konfeti patlasın
+    // Ekrana tıklanınca konfeti patlasın tıklanan yerde
     document.addEventListener("click", (e) => {
       for (let i = 0; i < 30; i++) {
         const confetti = document.createElement("div");
