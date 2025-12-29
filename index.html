@@ -39,6 +39,14 @@
       z-index: 2;
     }
 
+    .click-text {
+      font-size: 1.5rem;
+      color: white;
+      margin-top: 20px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
     .confetti {
       position: absolute;
       width: 10px;
@@ -83,6 +91,7 @@
 </head>
 <body>
   <div id="y2025" class="year">2025</div>
+  <div id="clickText" class="click-text">Yeni yıla geçmek için tıkla</div>
   <div id="y2026" class="year">2026</div>
   <img src="hediye.jpg" class="gift" id="gift" alt="Gift Box">
 
@@ -99,11 +108,12 @@
   <img src="foto10.jpg" class="photo">
 
   <script>
-    document.getElementById("y2025").addEventListener("click", () => {
-      // 2025 yok oluyor
-      const y2025 = document.getElementById("y2025");
-      y2025.style.opacity = "0";
-      y2025.style.pointerEvents = "none";
+    function startNewYear() {
+      // 2025 ve yazı yok oluyor
+      document.getElementById("y2025").style.opacity = "0";
+      document.getElementById("y2025").style.pointerEvents = "none";
+      document.getElementById("clickText").style.opacity = "0";
+      document.getElementById("clickText").style.pointerEvents = "none";
 
       // 2026 geliyor
       const y2026 = document.getElementById("y2026");
@@ -137,7 +147,11 @@
       setTimeout(() => {
         document.getElementById("gift").style.display = "block";
       }, 7000);
-    });
+    }
+
+    // Hem 2025 hem yazıya tıklanabilir
+    document.getElementById("y2025").addEventListener("click", startNewYear);
+    document.getElementById("clickText").addEventListener("click", startNewYear);
 
     // Kutunun tıklanması
     document.getElementById("gift").addEventListener("click", () => {
