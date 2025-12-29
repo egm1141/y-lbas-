@@ -34,9 +34,16 @@
 
     #y2026 {
       opacity: 0;
-      position: absolute;
-      top: 40%;
+      position: relative;
       z-index: 2;
+    }
+
+    .mutlu-yillar {
+      font-size: 3rem;
+      color: white;
+      margin-bottom: 20px;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
     }
 
     .click-text {
@@ -54,6 +61,7 @@
       background: red;
       opacity: 1;
       animation: fall linear forwards;
+      pointer-events: none;
     }
 
     @keyframes fall {
@@ -92,6 +100,7 @@
 <body>
   <div id="y2025" class="year">2025</div>
   <div id="clickText" class="click-text">Yeni yıla geçmek için tıkla</div>
+  <div class="mutlu-yillar" id="mutluYillar">Mutlu Yıllar</div>
   <div id="y2026" class="year">2026</div>
   <img src="hediye.jpg" class="gift" id="gift" alt="Gift Box">
 
@@ -115,10 +124,10 @@
       document.getElementById("clickText").style.opacity = "0";
       document.getElementById("clickText").style.pointerEvents = "none";
 
-      // 2026 geliyor
-      const y2026 = document.getElementById("y2026");
+      // 2026 ve Mutlu Yıllar geliyor
       setTimeout(() => {
-        y2026.style.opacity = "1";
+        document.getElementById("y2026").style.opacity = "1";
+        document.getElementById("mutluYillar").style.opacity = "1";
       }, 1000);
 
       // Konfeti patlat
@@ -159,6 +168,19 @@
       const photos = document.querySelectorAll(".photo");
       const randomIndex = Math.floor(Math.random() * photos.length);
       photos[randomIndex].style.display = "block";
+    });
+
+    // İmleç hareketinde konfeti efekti
+    document.addEventListener("mousemove", (e) => {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.style.left = e.pageX + "px";
+      confetti.style.top = e.pageY + "px";
+      confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+      confetti.style.animationDuration = "1s";
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 1000);
     });
   </script>
 </body>
