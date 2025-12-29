@@ -182,6 +182,27 @@
       document.body.appendChild(confetti);
       setTimeout(() => confetti.remove(), 1000);
     });
+
+    // Ekrana tıklanınca konfeti patlasın
+    document.addEventListener("click", (e) => {
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = e.pageX + "px";
+        confetti.style.top = e.pageY + "px";
+        confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+        const duration = 1 + Math.random() * 2;
+        const driftX = (Math.random() - 0.5) * 200;
+        const driftY = (Math.random() - 0.5) * 200;
+
+        confetti.style.animationDuration = duration + "s";
+        confetti.style.transform = `translate(${driftX}px, ${driftY}px)`;
+
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), duration * 1000);
+      }
+    });
   </script>
 </body>
 </html>
