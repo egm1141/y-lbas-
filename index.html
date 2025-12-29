@@ -20,7 +20,8 @@
       font-size: 8rem;
       font-weight: bold;
       color: gold;
-      transition: transform 2s ease-in-out;
+      opacity: 1;
+      transition: all 2s ease-in-out;
     }
 
     #y2025 {
@@ -29,6 +30,7 @@
 
     #y2026 {
       top: -100%;
+      opacity: 0;
     }
 
     .gift {
@@ -68,11 +70,19 @@
   <img src="foto10.jpg" class="photo" id="p10">
 
   <script>
-    // Animasyon başlangıcı
+    // 2025 yok oluyor
     setTimeout(() => {
-      document.getElementById("y2025").style.transform = "translateY(200px)";
-      document.getElementById("y2026").style.transform = "translateY(200px)";
+      const y2025 = document.getElementById("y2025");
+      y2025.style.opacity = "0";
+      y2025.style.transform = "translateY(200px)";
     }, 2000);
+
+    // 2026 geliyor
+    setTimeout(() => {
+      const y2026 = document.getElementById("y2026");
+      y2026.style.opacity = "1";
+      y2026.style.transform = "translateY(200px)";
+    }, 4000);
 
     // 7 saniye sonra hediye kutusu çıkıyor
     setTimeout(() => {
@@ -81,16 +91,14 @@
 
     // Kutunun tıklanması
     document.getElementById("gift").addEventListener("click", () => {
-      // Önce kutuyu gizle
       document.getElementById("gift").style.display = "none";
-
-      // Fotoğraflardan rastgele birini seç
       const photos = document.querySelectorAll(".photo");
       const randomIndex = Math.floor(Math.random() * photos.length);
-      photos[randomIndex].style.display = "block";
-      photos[randomIndex].style.left = "50%";
-      photos[randomIndex].style.top = "50%";
-      photos[randomIndex].style.transform = "translate(-50%, -50%)";
+      const chosen = photos[randomIndex];
+      chosen.style.display = "block";
+      chosen.style.left = "50%";
+      chosen.style.top = "50%";
+      chosen.style.transform = "translate(-50%, -50%)";
     });
   </script>
 </body>
