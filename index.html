@@ -76,7 +76,6 @@
 <body>
   <div id="y2025" class="year">2025</div>
   <div id="y2026" class="year">2026</div>
-  <!-- Senin kutu görselin artık JPG -->
   <img src="hediye.jpg" class="gift" id="gift" alt="Gift Box">
 
   <!-- Fotoğraflar -->
@@ -94,9 +93,8 @@
   <script>
     // 2025 yok oluyor
     setTimeout(() => {
-      const y2025 = document.getElementById("y2025");
-      y2025.style.opacity = "0";
-      y2025.style.transform = "translateY(200px)";
+      document.getElementById("y2025").style.opacity = "0";
+      document.getElementById("y2025").style.transform = "translateY(200px)";
     }, 2000);
 
     // 2026 geliyor + konfeti patlıyor
@@ -105,7 +103,6 @@
       y2026.style.opacity = "1";
       y2026.style.top = "40%";
 
-      // Konfeti patlat
       for (let i = 0; i < 120; i++) {
         const confetti = document.createElement("div");
         confetti.className = "confetti";
@@ -113,10 +110,9 @@
         confetti.style.top = "-10px";
         confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
 
-        // Farklı süre, gecikme ve sağa–sola kayma
-        const duration = 2 + Math.random() * 3; // 2–5 saniye
-        const delay = Math.random() * 2;        // 0–2 saniye
-        const drift = (Math.random() - 0.5) * 200; // sağa–sola kayma
+        const duration = 2 + Math.random() * 3;
+        const delay = Math.random() * 2;
+        const drift = (Math.random() - 0.5) * 200;
 
         confetti.style.animationDuration = duration + "s";
         confetti.style.animationDelay = delay + "s";
