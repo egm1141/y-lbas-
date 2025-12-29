@@ -105,18 +105,21 @@
       y2026.style.top = "40%";
 
       // Konfeti patlat
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 120; i++) {
         const confetti = document.createElement("div");
         confetti.className = "confetti";
         confetti.style.left = Math.random() * window.innerWidth + "px";
         confetti.style.top = "-10px";
         confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
 
-        // Her konfetiye farklı süre ve gecikme ver
-        const duration = 2 + Math.random() * 3; // 2–5 saniye arası
-        const delay = Math.random() * 2;        // 0–2 saniye gecikme
+        // Farklı süre, gecikme ve X salınımı
+        const duration = 2 + Math.random() * 3; // 2–5 saniye
+        const delay = Math.random() * 2;        // 0–2 saniye
+        const drift = (Math.random() - 0.5) * 200; // sağa–sola kayma
+
         confetti.style.animationDuration = duration + "s";
         confetti.style.animationDelay = delay + "s";
+        confetti.style.transform = `translateX(${drift}px)`;
 
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), (duration + delay) * 1000);
