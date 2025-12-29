@@ -8,29 +8,45 @@
       margin: 0;
       height: 100vh;
       background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       overflow: hidden;
       font-family: Arial, sans-serif;
+      position: relative;
     }
 
     .year {
       position: absolute;
+      width: 100%;
+      text-align: center;
       font-size: 8rem;
       font-weight: bold;
       color: gold;
-      opacity: 1;
       transition: all 2s ease-in-out;
     }
 
     #y2025 {
       top: 40%;
+      opacity: 1;
     }
 
     #y2026 {
       top: -100%;
       opacity: 0;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: red;
+      opacity: 1;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
     }
 
     .gift {
@@ -40,6 +56,8 @@
       cursor: pointer;
       position: absolute;
       bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     .photo {
@@ -49,25 +67,28 @@
       border: 5px solid white;
       border-radius: 10px;
       position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
   </style>
 </head>
 <body>
   <div id="y2025" class="year">2025</div>
   <div id="y2026" class="year">2026</div>
-  <img src="https://cdn-icons-png.flaticon.com/512/2545/2545883.png" class="gift" id="gift" alt="Gift Box">
+  <img src="hediye.png" class="gift" id="gift" alt="Gift Box">
 
   <!-- Fotoğraflar -->
-  <img src="foto1.jpg" class="photo" id="p1">
-  <img src="foto2.jpg" class="photo" id="p2">
-  <img src="foto3.jpg" class="photo" id="p3">
-  <img src="foto4.jpg" class="photo" id="p4">
-  <img src="foto5.jpg" class="photo" id="p5">
-  <img src="foto6.jpg" class="photo" id="p6">
-  <img src="foto7.jpg" class="photo" id="p7">
-  <img src="foto8.jpg" class="photo" id="p8">
-  <img src="foto9.jpg" class="photo" id="p9">
-  <img src="foto10.jpg" class="photo" id="p10">
+  <img src="foto1.jpg" class="photo">
+  <img src="foto2.jpg" class="photo">
+  <img src="foto3.jpg" class="photo">
+  <img src="foto4.jpg" class="photo">
+  <img src="foto5.jpg" class="photo">
+  <img src="foto6.jpg" class="photo">
+  <img src="foto7.jpg" class="photo">
+  <img src="foto8.jpg" class="photo">
+  <img src="foto9.jpg" class="photo">
+  <img src="foto10.jpg" class="photo">
 
   <script>
     // 2025 yok oluyor
@@ -77,11 +98,29 @@
       y2025.style.transform = "translateY(200px)";
     }, 2000);
 
-    // 2026 geliyor
+    // 2026 geliyor + konfeti patlıyor
     setTimeout(() => {
       const y2026 = document.getElementById("y2026");
       y2026.style.opacity = "1";
-      y2026.style.transform = "translateY(200px)";
+      y2026.style.top = "40%";
+
+      // Konfeti patlat
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.top = "-10px";
+        confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+        // Her konfetiye farklı süre ve gecikme ver
+        const duration = 2 + Math.random() * 3; // 2–5 saniye arası
+        const delay = Math.random() * 2;        // 0–2 saniye gecikme
+        confetti.style.animationDuration = duration + "s";
+        confetti.style.animationDelay = delay + "s";
+
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), (duration + delay) * 1000);
+      }
     }, 4000);
 
     // 7 saniye sonra hediye kutusu çıkıyor
@@ -94,11 +133,7 @@
       document.getElementById("gift").style.display = "none";
       const photos = document.querySelectorAll(".photo");
       const randomIndex = Math.floor(Math.random() * photos.length);
-      const chosen = photos[randomIndex];
-      chosen.style.display = "block";
-      chosen.style.left = "50%";
-      chosen.style.top = "50%";
-      chosen.style.transform = "translate(-50%, -50%)";
+      photos[randomIndex].style.display = "block";
     });
   </script>
 </body>
