@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Yılbaşı 2025 → 2026</title>
+<style>
+  :root {
+    --bg: #000;
+    --accent: #fff;
+    --gold: #ffd166;
+    --green: #06d6a0;
+    --red: #ef476f;
+    --blue: #118ab2;
+  }
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: var(--accent);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+
+  /* Merkez sahne */
+  .stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Yıllar */
+  .year {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 800;
+    letter-spacing: -2px;
+    text-shadow: 0 10px 40px rgba(255,255,255,0.15);
+    user-select: none;
+    will-change: transform, opacity;
+  }
+  .y2025 {
+    top: -40%;
+    font-size: clamp(4rem, 12vw, 20rem);
+    color: var(--blue);
+    animation: drop2025 3s cubic-bezier(.17,.67,.18,1) forwards;
+  }
+  .y2026 {
+    bottom: -40%;
+    font-size: clamp(4rem, 14vw, 22rem);
+    color: var(--gold);
+    animation: rise2026 3s cubic-bezier(.17,.67,.18,1) forwards 0.5s;
+  }
+  @keyframes drop2025 {
+    0%   { transform: translate(-50%, -120%); opacity: 0; }
+    40%  { opacity: 1; }
+    70%  { transform: translate(-50%, 20%); }
+    100% { transform: translate(-50%, 140%); opacity: 0.2; }
+  }
+  @keyframes rise2026 {
+    0%   { transform: translate(-50%, 140%); opacity: 0; }
+    40%  { opacity: 1; }
+    70%  { transform: translate(-50%, -10%); }
+    100% { transform: translate(-50%, -50%); opacity: 1; }
+  }
+
+  /* Konfeti canvas üstte */
+  #confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* Hediye kutusu */
+  .gift-wrap {
+    position: absolute;
+    left: 50%;
+    bottom: 8%;
+    transform: translateX(-50%) scale(0.9);
+    display: none; /* 5 saniye sonra açılacak */
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+  }
+  .hint {
+    font-size: clamp(0.9rem, 2.4vw, 1.2rem);
+    opacity: 0.85;
+  }
+  .gift {
+    width: clamp(80px, 16vw, 160px);
+    height: clamp(80px, 16vw, 160px);
+    cursor: pointer;
+    position: relative;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    background:
+      linear-gradient(90deg, transparent 45%, var(--red) 45%, var(--red) 55%, transparent 55%),
+      linear-gradient(180deg, #b31d40, #ef476f);
+    overflow: hidden;
+    outline: 2px solid rgba(255,255,255,0.1);
+  }
+  .gift::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(transparent, rgba(255,255,255,0.08));
+  }
+  .lid {
+    position: absolute;
+    left: 0; right: 0;
+    height: 28%;
+    background: linear-gradient(180deg, #a31435, #d83a5e);
+    transform-origin: left bottom;
+    animation: lidPop 1s ease-out infinite alternate 2.5s;
+  }
+  @keyframes lidPop {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-4deg) translateY(-2px); }
+  }
+
+  /* Görsel çıkan panel */
+  .result {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%) scale(0.9);
+    display: none;
+    background: #111;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.75);
+    padding: 14px;
+    z-index: 20;
+    width: min(88vw, 780px);
+    max-height: 82vh;
+  }
+  .result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .result-title {
+    font-weight: 700;
+    font-size: clamp(1rem, 3vw, 1.3rem);
+  }
+  .close-btn {
+    border: none;
+    background: #222;
+    color: #ddd;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .close-btn:hover { background: #2a2a2a; }
+  .img-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .img-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Fade ve pop animleri */
+  .show { display: flex; animation: fadeIn .5s ease-out forwards; }
+  .show-block { display: block; animation: fadeIn .5s ease-out forwards; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%,-50%) scale(0.92); }
+    to   { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <canvas id="confetti"></canvas>
+
+    <div class="year y2025">2025</div>
+    <div class="year y2026">2026</div>
+
+    <div class="gift-wrap" id="giftWrap">
+      <div class="hint">5 saniye doldu! Kutuyu tıkla, sürpriz görsel gelsin.</div>
+      <div class="gift" id="gift">
+        <div class="lid"></div>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="result-header">
+        <div class="result-title">Rasgele görsel</div>
+        <button class="close-btn" id="closeBtn">Kapat</button>
+      </div>
+      <div class="img-wrap"><img id="randomImg" alt="Rasgele görsel" /></div>
+    </div>
+  </div>
+
+<script>
+  // ————— Konfeti —————
+  (function() {
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H, pieces = [], running = true;
+
+    const colors = ['#ffd166','#ef476f','#06d6a0','#118ab2','#ffffff'];
+    const TWO_PI = Math.PI * 2;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function spawn(count=120) {
+      pieces = [];
+      for (let i=0; i<count; i++) {
+        pieces.push({
+          x: Math.random() * W,
+          y: -20 - Math.random() * 60,
+          r: 3 + Math.random() * 6,   // boyut
+          w: 6 + Math.random() * 12,  // kağıt genişliği
+          h: 8 + Math.random() * 16,  // kağıt yüksekliği
+          col: colors[(Math.random()*colors.length)|0],
+          vy: 2 + Math.random() * 3.5,
+          vx: -1 + Math.random() * 2,
+          rot: Math.random() * TWO_PI,
+          vrot: -0.1 + Math.random() * 0.2,
+          shape: Math.random() < 0.6 ? 'rect' : 'circle'
+        });
+      }
+    }
+
+    function draw() {
+      if (!running) return;
+      ctx.clearRect(0,0,W,H);
+      for (const p of pieces) {
+        p.vy += 0.002;        // hafif hızlanma
+        p.y += p.vy;
+        p.x += p.vx;
+        p.rot += p.vrot;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+
+        if (p.shape === 'rect') {
+          ctx.fillStyle = p.col;
+          ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0,0,p.r,0,TWO_PI);
+          ctx.fillStyle = p.col;
+          ctx.fill();
+        }
+        ctx.restore();
+
+        // yeniden döngüye sok
+        if (p.y > H + 40) {
+          p.y = -30;
+          p.x = Math.random() * W;
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    // Konfeti 0.5s sonra başla, 6s sonra durdur
+    setTimeout(() => { spawn(200); draw(); }, 500);
+    setTimeout(() => { running = false; }, 6000);
+  })();
+
+  // ————— 5 saniye sonra hediye kutusu —————
+  const giftWrap = document.getElementById('giftWrap');
+  const gift = document.getElementById('gift');
+  const result = document.getElementById('result');
+  const imgEl = document.getElementById('randomImg');
+  const closeBtn = document.getElementById('closeBtn');
+
+  // Buraya kendi görsellerini koy: aynı dizinde photo1.jpg ... photo10.jpg
+  const images = [
+    'photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg',
+    'photo6.jpg','photo7.jpg','photo8.jpg','photo9.jpg','photo10.jpg'
+  ];
+
+  setTimeout(() => {
+    giftWrap.classList.add('show');
+    giftWrap.style.display = 'flex';
+  }, 5000);
+
+  function pickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  gift.addEventListener('click', () => {
+    const src = pickRandom(images);
+    imgEl.src = src;
+    result.classList.add('show-block');
+    result.style.display = 'block';
+  });
+
+  closeBtn.addEventListener('click', () => {
+    result.style.display = 'none';
+    result.classList.remove('show-block');
+  });
+
+  // ESC ile kapat
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      result.style.display = 'none';
+      result.classList.remove('show-block');
+    }
+  });
+</script>
+</body>
+</html>
