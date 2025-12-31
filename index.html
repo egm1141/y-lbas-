@@ -1,214 +1,238 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Yılbaşı Animasyonu</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Yeni yılınız kutlu olsun – 2026</title>
   <style>
-    body {
+    :root {
+      --bg: #0b1220;
+      --fg: #ffffff;
+      --accent: #00e5ff;
+      --accent2: #ff4d6d;
+      --accent3: #ffd166;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
       margin: 0;
-      height: 100vh;
-      font-family: Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 50% 30%, #16213e 0%, var(--bg) 55%, #070b16 100%);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       overflow: hidden;
-      background: url("noel-arka.jpg") no-repeat center center fixed;
-      background-size: cover; /* Noel temalı görsel arka plan */
     }
-
-    .container {
+    .wrap {
       position: relative;
-      width: 100%;
-      height: 100vh;
-    }
-
-    .year {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 8rem;
-      font-weight: bold;
-      color: gold;
-      transition: opacity 1s ease-in-out;
+      height: 100%;
+      display: grid;
+      place-items: center;
       text-align: center;
+      padding: 2rem;
     }
-
-    #y2025 { opacity: 1; }
-    #y2026 { opacity: 0; }
-
-    .mutlu-yillar {
-      position: absolute;
-      top: 40%; /* 2026’nın biraz üstünde */
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 3rem;
-      color: black;   /* Siyah renk */
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
+    .headline {
+      line-height: 1.05;
+      margin: 0;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.35), 0 0 24px rgba(0,229,255,0.3);
     }
-
-    .next-btn {
-      position: absolute;
-      top: 65%;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px 20px;
-      font-size: 1.2rem;
+    .headline .greet {
+      font-weight: 700;
+      font-size: clamp(1.6rem, 2.8vw + 1rem, 3.6rem);
+      display: block;
+    }
+    .headline .year {
+      font-weight: 800;
+      font-size: clamp(4rem, 10vw + 1rem, 12rem);
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 12px rgba(255,255,255,0.15));
+    }
+    .sub {
+      margin-top: 0.6rem;
+      font-size: clamp(0.95rem, 1.2vw + 0.4rem, 1.3rem);
+      opacity: 0.9;
+    }
+    .btns {
+      display: inline-flex;
+      gap: 0.6rem;
+      margin-top: 1.2rem;
+    }
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      color: var(--fg);
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
       cursor: pointer;
-      background: gold;
-      border: none;
-      border-radius: 5px;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      transition: transform 160ms ease, background 160ms ease, border 160ms ease, box-shadow 160ms ease;
     }
-
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: red;
-      opacity: 1;
+    .btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.28); }
+    .btn:active { transform: translateY(0); }
+    canvas#confetti {
+      position: fixed;
+      inset: 0;
       pointer-events: none;
     }
-
-    @keyframes driftFall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-    }
-
-    @keyframes burst {
-      0% { transform: translate(0,0) scale(1); opacity: 1; }
-      100% { transform: translate(var(--x), var(--y)) scale(0.5); opacity: 0; }
-    }
-
-    .gift {
-      display: none;
-      width: 150px;
-      height: 150px;
-      cursor: pointer;
-      position: absolute;
+    .footer {
+      position: fixed;
+      bottom: 10px;
       left: 50%;
-      top: 75%;
-      transform: translate(-50%, -50%);
-      z-index: 3;
-    }
-
-    .gift-text {
-      display: none;
-      position: absolute;
-      left: 50%;
-      top: 85%; /* kutunun hemen altında */
       transform: translateX(-50%);
-      font-size: 1.5rem;
-      color: white;
-      z-index: 3;
-    }
-
-    .photo {
-      display: none;
-      max-width: 80%;
-      max-height: 80%;
-      border: 5px solid white;
-      border-radius: 10px;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 4;
+      font-size: 0.9rem;
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div id="y2025" class="year">2025</div>
-    <button id="nextBtn" class="next-btn">Sonraki Yıla Geç</button>
+  <canvas id="confetti"></canvas>
 
-    <div class="mutlu-yillar" id="mutluYillar">Mutlu Yıllar</div>
-    <div id="y2026" class="year">2026</div>
-
-    <!-- Hediye kutusu ve altındaki yazı -->
-    <img src="hediye.jpg" class="gift" id="gift" alt="Gift Box">
-    <div id="giftText" class="gift-text">Hediyeni Aç</div>
-
-    <!-- Fotoğraflar -->
-    <img src="foto1.jpg" class="photo">
-    <img src="foto2.jpg" class="photo">
-    <img src="foto3.jpg" class="photo">
-    <img src="foto4.jpg" class="photo">
-    <img src="foto5.jpg" class="photo">
-    <img src="foto6.jpg" class="photo">
-    <img src="foto7.jpg" class="photo">
-    <img src="foto8.jpg" class="photo">
-    <img src="foto9.jpg" class="photo">
-    <img src="foto10.jpg" class="photo">
+  <div class="wrap">
+    <h1 class="headline">
+      <span class="greet">Yeni yılınız kutlu olsun</span>
+      <span class="year">2026</span>
+    </h1>
+    <p class="sub">Sağlık, mutluluk ve başarı dolu bir yıl olsun. 🎉</p>
+    <div class="btns">
+      <button class="btn" id="burst">Konfeti Patlat</button>
+      <button class="btn" id="stream">Akış Başlat</button>
+      <button class="btn" id="stop">Durdur</button>
+    </div>
   </div>
 
+  <div class="footer">Made with ❤️ for a bright 2026</div>
+
   <script>
-    function startNewYear() {
-      document.getElementById("y2025").style.opacity = "0";
-      document.getElementById("nextBtn").style.opacity = "0";
-      document.getElementById("nextBtn").style.pointerEvents = "none";
+    // Lightweight confetti (no libraries)
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H, rafId = null, stream = false, particles = [];
+    const colors = ['#00e5ff','#ff4d6d','#ffd166','#7cffcb','#c792ea','#ffe3ff','#64f5a1'];
 
-      setTimeout(() => {
-        document.getElementById("y2026").style.opacity = "1";
-        document.getElementById("mutluYillar").style.opacity = "1";
-      }, 1000);
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
-      // Üstten süzülen konfeti
-      setTimeout(() => {
-        for (let i = 0; i < 1000; i++) {
-          const confetti = document.createElement("div");
-          confetti.className = "confetti";
-          confetti.style.left = Math.random() * window.innerWidth + "px";
-          confetti.style.top = "-20px";
-          confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-          const size = 6 + Math.random() * 10;
-          confetti.style.width = size + "px";
-          confetti.style.height = size + "px";
-          const duration = 2 + Math.random() * 5;
-          confetti.style.animation = `driftFall ${duration}s ease-in-out forwards`;
+    function rand(min, max) { return Math.random() * (max - min) + min; }
 
-          document.body.appendChild(confetti);
-          setTimeout(() => confetti.remove(), duration * 1000);
-        }
-      }, 1000);
-
-      // 7 saniye sonra hediye kutusu ve yazısı çıkıyor
-      setTimeout(() => {
-        document.getElementById("gift").style.display = "block";
-        document.getElementById("giftText").style.display = "block";
-      }, 7000);
+    function makeParticle(x = rand(0, W), y = -20, burst=false) {
+      const shape = Math.random() < 0.6 ? 'rect' : 'circle';
+      const size = burst ? rand(6, 10) : rand(3, 7);
+      const color = colors[(Math.random() * colors.length) | 0];
+      const vx = burst ? rand(-3, 3) : rand(-1.2, 1.2);
+      const vy = burst ? rand(2, 6) : rand(1.2, 3.6);
+      const rot = rand(0, Math.PI * 2);
+      const vr = rand(-0.08, 0.08);
+      const life = burst ? rand(2.2, 3.2) : rand(3.5, 6);
+      return { x, y, vx, vy, size, color, rot, vr, shape, life, age: 0, opacity: 1 };
     }
 
-    document.getElementById("nextBtn").addEventListener("click", startNewYear);
+    function burst(x = W/2, y = H*0.35, count = 220) {
+      for (let i = 0; i < count; i++) particles.push(makeParticle(x, y, true));
+      start();
+    }
 
-    // Kutunun tıklanması
-    document.getElementById("gift").addEventListener("click", () => {
-      document.getElementById("gift").style.display = "none";
-      document.getElementById("giftText").style.display = "none";
-      const photos = document.querySelectorAll(".photo");
-      const randomIndex = Math.floor(Math.random() * photos.length);
-      photos[randomIndex].style.display = "block";
-    });
+    function startStream() {
+      stream = true;
+      start();
+    }
 
-    // Tıklama patlaması
-    document.addEventListener("click", (e) => {
-      if (e.target.id !== "nextBtn" && e.target.id !== "y2025") {
-        for (let i = 0; i < 150; i++) {
-          const confetti = document.createElement("div");
-          confetti.className = "confetti";
-          confetti.style.left = e.pageX + "px";
-          confetti.style.top = e.pageY + "px";
-          confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    function stopStream() { stream = false; }
 
-          const dx = (Math.random() - 0.5) * 300 + "px";
-          const dy = (Math.random() - 0.5) * 300 + "px";
-          confetti.style.setProperty("--x", dx);
-          confetti.style.setProperty("--y", dy);
+    function start() {
+      if (rafId !== null) return;
+      let last = performance.now();
+      const loop = (now) => {
+        const dt = Math.min((now - last) / 1000, 0.033);
+        last = now;
+        update(dt);
+        draw();
+        rafId = requestAnimationFrame(loop);
+      };
+      rafId = requestAnimationFrame(loop);
+    }
 
-          confetti.style.animation = `burst ${1 + Math.random()}s ease-out forwards`;
+    function stop() {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    }
 
-          document.body.appendChild(confetti);
-          setTimeout(() => confetti.remove(), 2000);
+    function update(dt) {
+      // Stream feed
+      if (stream) {
+        const perFrame = Math.floor(W / 160);
+        for (let i = 0; i < perFrame; i++) {
+          particles.push(makeParticle(rand(0, W), -10, false));
         }
       }
-    });
+
+      const g = 600; // gravity px/s^2
+      const drag = 0.995;
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.vy += (g * dt) / 60;
+        p.vx *= drag;
+        p.vy *= drag;
+        p.x += p.vx * 60 * dt;
+        p.y += p.vy * 60 * dt;
+        p.rot += p.vr;
+
+        p.age += dt;
+        const fadeStart = p.life * 0.75;
+        if (p.age > fadeStart) {
+          p.opacity = Math.max(0, 1 - (p.age - fadeStart) / (p.life - fadeStart));
+        }
+
+        if (p.y > H + 40 || p.opacity <= 0) {
+          particles.splice(i, 1);
+        }
+      }
+
+      if (!stream && particles.length === 0) {
+        stop();
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of particles) {
+        ctx.globalAlpha = p.opacity;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        if (p.shape === 'rect') {
+          const w = p.size, h = p.size * 0.6;
+          ctx.fillRect(-w/2, -h/2, w, h);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size/2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    // Controls
+    document.getElementById('burst').addEventListener('click', () => burst());
+    document.getElementById('stream').addEventListener('click', () => startStream());
+    document.getElementById('stop').addEventListener('click', () => stopStream());
+
+    // Auto start: a celebratory burst + short stream
+    burst();
+    startStream();
+    setTimeout(() => stopStream(), 3500);
   </script>
 </body>
 </html>
